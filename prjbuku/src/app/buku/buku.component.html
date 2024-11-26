@@ -55,6 +55,29 @@
                     DataTable Example
                 </div>
                 <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Judul</th>
+                                <th>Penulis</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="bukuList.length>0">
+                            <tr *ngFor="let buku of bukuList">
+                                <td>{{ buku.judul }}</td>
+                                <td>{{ buku.penulis }}</td>
+                                <td><button class="btn btn-outline-primary btn-sm">EDIT</button></td>
+                                <td><button class="btn btn-outline-danger btn-sm">DELETE</button></td>
+
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+<!-- =========================== -->
+                <!-- <div class="card-body">
                     <table id="datatablesSimple">
                         <thead>
                             <tr>
@@ -535,7 +558,7 @@
                             </tr>
                         </tbody>
                     </table>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
