@@ -62,6 +62,14 @@ import { Subscription } from 'rxjs';
 export class BukuComponent implements OnInit,OnDestroy {
   bukuList: Buku[] =[];
   private getBukuSub : Subscription = new Subscription();
+  private messageSub : Subscription = new Subscription();
+  messageExecute : string="";
+
+
+
+
+  //pagination
+  p: number = 1;
 
 
   constructor(public bukuService : BukuService){
@@ -73,6 +81,14 @@ export class BukuComponent implements OnInit,OnDestroy {
     .subscribe((value : Buku[])=>{
       this.bukuList= value;
     });
+
+
+    this.messageSub = this.bukuService.exexuteBukuListener()
+    .subscribe((value)=>{
+      this.messageExecute=value;
+    });
+
+
     this.bukuService.getBuku();
   }
 
@@ -88,8 +104,8 @@ export class BukuComponent implements OnInit,OnDestroy {
 
 
     if(form.invalid){
-      console.log("Tidak Valid");
-      alert("Data tidak valid");
+      //console.log("Tidak Valid");
+      //alert("Data tidak valid");
       return;
     }
 
@@ -117,7 +133,23 @@ export class BukuComponent implements OnInit,OnDestroy {
 
 
     this.bukuService.addBuku(form.value.judul, form.value.penulis,genres);
+    form.resetForm();
 
 
   }
+
+
+  hapusBuku(buku : Buku){
+    if (confirm("Hapus Data buku : " + buku.judul)){
+          this.bukuService.deleteBuku(buku);
+    }
+
+
+  }
+
+  
+
+
 }
+
+
