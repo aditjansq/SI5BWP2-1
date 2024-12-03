@@ -42,6 +42,7 @@ import { BukuComponent } from './buku/buku.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { RegisterComponent } from './register/register.component';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     AppComponent,
     AdminComponent,
     DashboardComponent,
-    BukuComponent
+    BukuComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

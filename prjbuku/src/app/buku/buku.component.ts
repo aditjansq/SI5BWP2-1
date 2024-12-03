@@ -66,7 +66,7 @@ export class BukuComponent implements OnInit,OnDestroy {
   messageExecute : string="";
 
 
-
+  mode: string = "Simpan";
 
   //pagination
   p: number = 1;
@@ -94,8 +94,19 @@ export class BukuComponent implements OnInit,OnDestroy {
 
 
   ngOnDestroy(): void {
+    this.getBukuSub.unsubscribe();
+    this.messageSub.unsubscribe();
    
   }
+
+  // //////////////////////
+  // hapusSemuaBuku() {
+  //   if (confirm("Apakah Anda yakin ingin menghapus semua buku?")) {
+  //     this.bukuService.deleteAllBuku(); // Memanggil metode di service
+  //   }
+  // }
+
+  
  
  
 
@@ -126,14 +137,22 @@ export class BukuComponent implements OnInit,OnDestroy {
     if(form.value.genre3==true){
       genres.push("Lainnya")
     }
-    console.log("Pengujian Klik")
-    console.log(form.value.judul);
-    console.log(form.value.penulis);
-    console.log(genres);
+    // console.log("Pengujian Klik")
+    // console.log(form.value.judul);
+    // console.log(form.value.penulis);
+    // console.log(genres);
+
+    if(this.mode.toUpperCase() === "SIMPAN"){
+      this.bukuService.addBuku(form.value.judul, form.value.penulis,genres);
+    }else{
+      this.bukuService.updateBuku(form.value.judul, form.value.penulis,
+        genres, form.value.id);
+    }
 
 
-    this.bukuService.addBuku(form.value.judul, form.value.penulis,genres);
+
     form.resetForm();
+    this.mode="Simpan";
 
 
   }
@@ -146,6 +165,42 @@ export class BukuComponent implements OnInit,OnDestroy {
 
 
   }
+
+  tampilData(buku : Buku, form : NgForm){
+    var gen1 : boolean=false;
+    var gen2 : boolean =false;
+    var gen3 : boolean = false;
+
+
+    buku.genre.forEach((val)=>{
+      if(val.toUpperCase().trim()==="BIOGRAFI"){
+        gen1 =true;
+      }else if(val.toUpperCase().trim()==="PENDIDIKAN"){
+        gen2= true;
+      }else if(val.toUpperCase().trim()==="LAINNYA"){
+        gen3 =true;
+      }
+    });
+   
+    form.setValue({
+      id : buku._id,
+     judul : buku.judul,
+     penulis : buku.penulis,
+      genre1 : gen1,
+      genre2 : gen2,
+      genre3 : gen3
+    })
+
+    this.mode="Perbaiki"
+  }
+
+  onReset(){
+    this.mode="Simpan"
+  }
+  
+  
+  
+
 
   
 
